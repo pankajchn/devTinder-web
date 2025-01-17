@@ -10,7 +10,7 @@ const Feed = () => {
   const feed = useSelector((store) => store.feed);
 
   const getFeed = async function () {
-    if(feed) return;
+    if (feed) return;
     try {
       const res = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
@@ -26,9 +26,14 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if (!feed) return;
+  if (feed.length === 0) {
+    return <h1 className="text-center my-24 text-lg">No new users found</h1>;
+  }
+
   return (
     feed && (
-      <div className="flex justify-center my-4">
+      <div className="flex justify-center  my-16">
         <UserCard data={feed[0]} />
       </div>
     )
