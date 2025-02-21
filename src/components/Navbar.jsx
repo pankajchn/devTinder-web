@@ -2,17 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router";
-import {  removeUser } from "../utils/userSlice";
+import { removeUser } from "../utils/userSlice";
 import { Link } from "react-router";
-
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
-  
 
   const handleLogout = async () => {
     try {
@@ -26,9 +22,9 @@ const Navbar = () => {
 
   return (
     <header>
-      <div className="navbar bg-base-300 fixed top-0 z-10">
+      <div className="navbar bg-base-300 fixed top-0 z-[1]">
         <div className="flex-1">
-          <Link to="/feed" className="btn btn-ghost text-xl">
+          <Link to="/feed" className="btn btn-ghost text-lg">
             👨‍💻 DevTinder
           </Link>
         </div>
@@ -56,7 +52,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/user/connection">Connections</Link>
+                  <Link to="/connections">Connections</Link>
                 </li>
                 <li>
                   <Link to="/requests">Requests</Link>

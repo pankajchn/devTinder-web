@@ -5,7 +5,11 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 
 const UserCard = ({ data }) => {
   const dispatch = useDispatch();
-  
+  const { firstName, lastName, photoUrl, about, age, gender, _id } = data;
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   const handleSendRequest = async function (status, userId) {
     try {
@@ -20,9 +24,8 @@ const UserCard = ({ data }) => {
     }
   };
 
-  const { firstName, lastName, photoUrl, about, age, gender, _id } = data;
   return (
-    <div className="card bg-base-300 w-80 h-[33rem] shadow-xl mt-8">
+    <div className="card bg-base-300 w-80 shadow-xl">
       <div className="h-60">
         <img
           src={photoUrl}
@@ -30,21 +33,23 @@ const UserCard = ({ data }) => {
           className="w-full h-[120%] object-fill rounded-t-lg"
         />
       </div>
-      <div className="card-body">
+      <div className="card-body text-white">
         <div className="mt-8">
-          <h2 className="card-title">
-            {firstName} {lastName}
+          <h2 className="card-title text-2xl">
+            {capitalizeFirstLetter(firstName) +
+              " " +
+              capitalizeFirstLetter(lastName)}
           </h2>
-          {age && gender && (
-            <h4>
+          
+            <p className="text-gray-300">
               {age}, {gender}
-            </h4>
-          )}
-          <p>{about}</p>
+            </p>
+          
+          <p className="text-gray-400">{about}</p>
         </div>
-        <div className="card-actions flex justify-center mt-8 relative top-[14px]">
+        <div className="flex flex-row justify-around mt-4">
           <button
-            className="btn bg-primary"
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-opacity-80"
             onClick={function () {
               handleSendRequest("ignored", _id);
             }}
@@ -52,7 +57,7 @@ const UserCard = ({ data }) => {
             Ignored
           </button>
           <button
-            className="btn bg-pink-500"
+            className=" bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-opacity-80"
             onClick={function () {
               handleSendRequest("interested", _id);
             }}

@@ -4,22 +4,24 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router";
+import bg_banner_two from "../assets/bg_banner_two.jpeg";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isUserLogin, setIsUserLogin] = useState(true);
+  const [isUserRegister, setIsUserRegister] = useState(true);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async function () {
+  const handleLoginClick = async function () {
     setError("");
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         BASE_URL + "/login",
         {
           emailId,
@@ -27,15 +29,15 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-
-      dispatch(addUser(response.data));
+      console.log(res);
+      dispatch(addUser(res.data));
       navigate("/feed");
-    } catch (err) {
-      setError(err.response.data || "Something went wrong");
+    } catch (error) {
+      setError(error.response.data.message || "Something went wrong");
     }
   };
 
-  const handleSignup = async function () {
+  const handleSignupClick = async function () {
     setError("");
     try {
       const res = await axios.post(
@@ -43,106 +45,131 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
-
+      console.log(res);
       dispatch(addUser(res?.data?.data));
       navigate("/profile");
-    } catch (err) {
-      setError(err.res.data || "Something went wrong");
+    } catch (error) {
+      setError(error.response.data.message || "Something went wrong");
+      console.log(error)
     }
   };
 
   return (
-    <div className="flex justify-center pb-24">
-      <div className="card bg-base-300 shadow-md w-64 md:w-96 mt-24">
-        <div className="card-body">
-          <h2 className="card-title mx-auto text-2xl relative bottom-3">
-            {!isUserLogin ? "SignUp" : "Login"}
+    <div className="w-[430px] h-screen md:w-screen md:flex">
+      <img
+        src={bg_banner_two}
+        alt="bg_banner"
+        className="h-screen md:w-full md:object-cover md:object-center"
+      />
+      <div className="hidden md:block absolute inset-0 bg-black bg-opacity-40"></div>
+
+      <div className="absolute bottom-[39rem] md:top-8 md:left-20">
+        <h2 className="text-2xl md:text-4xl text-white font-bold">🧑‍💻 DevTinder</h2>
+      </div>
+
+      <div className="absolute left-[38rem] top-28">
+        <form
+          className="px-12 py-5 pb-8 rounded-lg bg-black opacity-90"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <h2 className="text-center text-2xl font-bold mb-8 text-white">
+            {isUserRegister ? "Log In" : "Sign Up"}
           </h2>
-
-          {!isUserLogin && (
-            <>
-              {" "}
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">First Name :</span>
-                </div>
+          <div className="flex flex-col">
+            {!isUserRegister && (
+              <>
                 <input
                   type="text"
-                  className="input input-bordered w-full max-w-xs"
                   value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  onChange={function (e) {
+                    setFirstName(e.target.value);
+                  }}
+                  placeholder="First Name"
+                  className="my-2 py-3 px-3 rounded-md w-72 text-white"
                 />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Last Name :</span>
-                </div>
                 <input
-                  type="text"
-                  className="input input-bordered w-full max-w-xs"
                   value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  onChange={function (e) {
+                    setLastName(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="Last Name"
+                  className="my-2 py-3 px-3 rounded-md w-72 text-white"
                 />
-              </label>{" "}
-              <p>{error}</p>
-            </>
-          )}
-
-          <label className="form-control w-full max-w-xs">
-            <div className="label">
-              <span className="label-text">Email ID :</span>
-            </div>
-            <input
-              type="text"
-              className="input input-bordered w-full max-w-xs"
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
-            />
-          </label>
-          <label className="form-control w-full max-w-xs mt-2">
-            <div className="label">
-              <span className="label-text">Password :</span>
-            </div>
-            <input
-              type="password"
-              className="input input-bordered w-full max-w-xs"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-
-          <p className="text-red-500 mt-1">{error}</p>
-          <button
-            className="btn btn-primary mt-[15px] w-20 h-8 font-semibold mx-auto"
-            onClick={!isUserLogin ? handleSignup : handleLogin}
-          >
-            {!isUserLogin ? "SignUp" : "Login"}
-          </button>
-
-          <p className="text-center mt-3">
-            {!isUserLogin ? (
-              <>
-                Existing User?{" "}
-                <span
-                  className="hover:underline cursor-pointer text-blue-500"
-                  onClick={() => setIsUserLogin((value) => !value)}
-                >
-                  Log In
-                </span>
-              </>
-            ) : (
-              <>
-                New User?{" "}
-                <span
-                  className="hover:underline cursor-pointer text-blue-500"
-                  onClick={() => setIsUserLogin((value) => !value)}
-                >
-                  Sign Up
-                </span>
               </>
             )}
-          </p>
-        </div>
+
+            <input
+              value={emailId}
+              onChange={function (e) {
+                setEmailId(e.target.value);
+              }}
+              type="email"
+              placeholder="Email"
+              className="my-2 py-3 px-3 rounded-md w-72 text-white"
+            />
+            <div className="relative flex items-center">
+              <input
+                value={password}
+                onChange={function (e) {
+                  setPassword(e.target.value);
+                }}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="my-2 py-3 px-3 rounded-md w-72 text-white"
+              />
+
+              <span
+                className="absolute left-64 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "👁️" : "🙈"}
+              </span>
+            </div>
+
+            <p className="text-red-700">{error}</p>
+
+            {isUserRegister ? (
+              <button
+                onClick={handleLoginClick}
+                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-full text-white font-bold mt-5"
+              >
+                Log In
+              </button>
+            ) : (
+              <button
+                onClick={handleSignupClick}
+                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-full text-white font-bold mt-5"
+              >
+                Sign Up
+              </button>
+            )}
+
+            <div className="text-center mt-5">
+              {isUserRegister ? (
+                <p className="text-gray-500 text-sm">
+                  New to DevTinder?{" "}
+                  <span
+                    className="cursor-pointer hover:underline text-white text-base"
+                    onClick={() => setIsUserRegister(!isUserRegister)}
+                  >
+                    Sign Up
+                  </span>
+                </p>
+              ) : (
+                <p className="text-gray-500 text-sm">
+                  Already registered?{" "}
+                  <span
+                    className="cursor-pointer hover:underline text-white text-base"
+                    onClick={() => setIsUserRegister(!isUserRegister)}
+                  >
+                    Log In
+                  </span>
+                </p>
+              )}
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

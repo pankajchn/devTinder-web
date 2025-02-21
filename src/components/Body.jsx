@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from "react-router";
-import Footer from "./Footer";
 import Navbar from "./Navbar";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,14 +11,13 @@ const Body = () => {
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user);
 
-
   const fetchUser = async function () {
     if (userData) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data));
+      dispatch(addUser(res.data.data));
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");
@@ -34,9 +32,8 @@ const Body = () => {
 
   return (
     <div>
-      <Navbar />
+      {userData && <Navbar />}
       <Outlet />
-      <Footer />
     </div>
   );
 };

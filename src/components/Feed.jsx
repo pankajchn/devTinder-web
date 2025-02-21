@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { BASE_URL } from "../utils/constants.js";
 import { useEffect } from "react";
@@ -15,7 +16,7 @@ const Feed = () => {
       const res = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
       });
-
+      console.log(res);
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
       console.log(err);
@@ -33,7 +34,7 @@ const Feed = () => {
 
   return (
     feed && (
-      <div className="flex justify-center  my-16">
+      <div className="flex justify-center  my-[90px]">
         <UserCard data={feed[0]} />
       </div>
     )

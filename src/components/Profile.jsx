@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   const user = useSelector((store) => store.user);
+  if (!user) return null;
 
   return (
     user && (
-      <div className="h-auto min-h-[100vh] overflow-y-auto mt-16 pb-[10rem]">
-       
+      <div className="relative top-16">
         <EditProfile user={user} />
       </div>
     )

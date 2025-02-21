@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import UserCard from "./UserCard";
 import axios from "axios";
@@ -8,14 +9,15 @@ import { useNavigate } from "react-router";
 
 const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
+  const [id, setId] = useState(user._id);
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [about, setAbout] = useState(user.about);
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
+  const [age, setAge] = useState(user.age || "");
+  const [gender, setGender] = useState(user.gender || "");
+  const [about, setAbout] = useState(user.about || "");
   const [showToast, setShowToast] = useState(false);
 
   const handleSaveProfile = async function () {
@@ -25,108 +27,120 @@ const EditProfile = ({ user }) => {
         { firstName, lastName, age, gender, photoUrl, about },
         { withCredentials: true }
       );
-
+      console.log(res)
       dispatch(addUser(res?.data?.data));
       setShowToast(true);
       setTimeout(function () {
         setShowToast(false);
-        navigate("/feed")
+        navigate("/feed");
       }, 3000);
-      
-      
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="hidden md:block ">
-      <UserCard data={{ firstName, lastName, age, gender, photoUrl, about }} />
-      </div>
-      <div className="flex flex-col items-center md:bg-base-300 md:w-[22rem] me-44 my-5 ms-48 rounded-xl mx-10">
-        <h2 className="text-2xl font-bold mt-3 mb-3">Edit Profile</h2>
-        <div className="mt-1">
-          <label className="form-control  max-w-xs">
-            <div className="label">
-              <span className="label-text">First Name :</span>
-            </div>
-            <input
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className=" input input-bordered w-full max-w-xs"
-            />
+    <div className="flex items-center justify-center h-screen">
+      <form
+        onSubmit={function (e) {
+          e.preventDefault();
+        }}
+        className="w-[23%] flex flex-col items-center justify-center bg-base-300 py-2 mt-5 rounded-lg shadow-lg"
+      >
+        <h2 className="text-xl font-medium text-white mb-2">Edit Profile</h2>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            First Name<span className="text-gray-600">*</span>
           </label>
-          <label className="form-control max-w-xs">
-            <div className="label">
-              <span className="label-text">Last Name :</span>
-            </div>
-            <input
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              type="text"
-              className=" input input-bordered w-full max-w-xs"
-            />
-          </label>
-          <label className="form-control max-w-xs">
-            <div className="label">
-              <span className="label-text">Age :</span>
-            </div>
-            <input
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              type="text"
-              className=" input input-bordered w-full max-w-xs"
-            />
-          </label>
-          <label className="form-control max-w-xs">
-            <div className="label">
-              <span className="label-text">Gender :</span>
-            </div>
-            <input
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              type="text"
-              className=" input input-bordered w-full max-w-xs"
-            />
-          </label>
-          <label className="form-control max-w-xs">
-            <div className="label">
-              <span className="label-text">Photo URL :</span>
-            </div>
-            <input
-              value={photoUrl}
-              onChange={(e) => setPhotoUrl(e.target.value)}
-              type="text"
-              className=" input input-bordered w-full max-w-xs"
-            />
-          </label>
-          <label className="form-control max-w-xs">
-            <div className="label">
-              <span className="label-text">About :</span>
-            </div>
-            <textarea
-              value={about}
-              onChange={(e) => setAbout(e.target.value)}
-              className=" textarea w-[250px] textarea-bordered textarea-xs  max-w-xs"
-            ></textarea>
-          </label>
+          <input
+            type="text"
+            className="w-[100%] px-3 py-3 rounded-md text-white "
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
         </div>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            Last Name<span className="text-gray-600">*</span>
+          </label>
+          <input
+            type="text"
+            className="w-[100%] px-3 py-3 rounded-md text-white "
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            Age<span className="text-gray-600">*</span>
+          </label>
+          <input
+            type="number"
+            className="w-[100%] px-3 py-3 rounded-md text-white "
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+        </div>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            Gender<span className="text-gray-600">*</span>
+          </label>
+          <input
+            type="text"
+            className="w-[100%] px-3 py-3 rounded-md text-white"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          />
+        </div>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            Photo URL<span className="text-gray-600">*</span>
+          </label>
+          <input
+            type="text"
+            className="w-[100%] px-3 py-3 rounded-md text-white"
+            value={photoUrl}
+            onChange={(e) => setPhotoUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="my-1 w-[80%]">
+          <label className="block">
+            About<span className="text-gray-600">*</span>
+          </label>
+          <textarea
+            type="text"
+            className="w-[100%] px-3 py-3 rounded-md text-white"
+            value={about}
+            onChange={(e) => setAbout(e.target.value)}
+          ></textarea>
+        </div>
+
         <button
-          className="btn btn-primary my-8 font-bold text-slate-900"
+          type="submit"
+          className="my-2 bg-blue-700 hover:opacity-45 px-7 py-2 text-white font-semibold rounded-full"
           onClick={handleSaveProfile}
         >
-          Save Profile
+          Save
         </button>
-        {showToast && (
-          <div className="toast toast-top toast-center z-10">
-            <div className="alert alert-info">
-              <span>Your profile saved succesfully!</span>
-            </div>
-          </div>
-        )}
+      </form>
+      <div className="ms-16">
+        <UserCard
+          data={{ id, firstName, lastName, age, gender, photoUrl, about }}
+        />
       </div>
+      {showToast && (
+        <div className="toast toast-top toast-center z-[1]">
+          <div className="alert alert-info">
+            <span>Your profile saved successfully!</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
