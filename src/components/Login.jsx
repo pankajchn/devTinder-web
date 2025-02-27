@@ -29,8 +29,7 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res);
-      dispatch(addUser(res.data));
+      dispatch(addUser(res?.data?.data));
       navigate("/feed");
     } catch (error) {
       setError(error.response.data.message || "Something went wrong");
@@ -45,34 +44,35 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
-      console.log(res);
       dispatch(addUser(res?.data?.data));
       navigate("/profile");
     } catch (error) {
       setError(error.response.data.message || "Something went wrong");
-      console.log(error)
+      console.log(error);
     }
   };
 
   return (
-    <div className="w-[430px] h-screen md:w-screen md:flex">
+    <div className="flex justify-center items-center w-screen h-screen">
       <img
         src={bg_banner_two}
         alt="bg_banner"
-        className="h-screen md:w-full md:object-cover md:object-center"
+        className="hidden md:block w-full h-full object-cover object-center"
       />
-      <div className="hidden md:block absolute inset-0 bg-black bg-opacity-40"></div>
+      <div className="hidden md:block absolute inset-0 bg-black bg-opacity-40 w-full"></div>
 
-      <div className="absolute bottom-[39rem] md:top-8 md:left-20">
-        <h2 className="text-2xl md:text-4xl text-white font-bold">🧑‍💻 DevTinder</h2>
+      <div className="absolute top-4 left-4 lg:top-8 lg:left-20">
+        <h2 className="text-xl md:3xl lg:text-4xl text-white font-bold">
+          🧑‍💻 DevTinder
+        </h2>
       </div>
 
-      <div className="absolute left-[38rem] top-28">
+      <div className=" absolute top-32  ">
         <form
-          className="px-12 py-5 pb-8 rounded-lg bg-black opacity-90"
+          className="bg-base-300 px-10 py-3 md:px-16 md:py-10 pb-8 rounded-lg md:bg-black opacity-90 shadow-xl"
           onSubmit={(e) => e.preventDefault()}
         >
-          <h2 className="text-center text-2xl font-bold mb-8 text-white">
+          <h2 className="text-center text-xl md:text-2xl font-bold mb-8 text-white">
             {isUserRegister ? "Log In" : "Sign Up"}
           </h2>
           <div className="flex flex-col">
@@ -85,7 +85,7 @@ const Login = () => {
                     setFirstName(e.target.value);
                   }}
                   placeholder="First Name"
-                  className="my-2 py-3 px-3 rounded-md w-72 text-white"
+                  className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
                 />
                 <input
                   value={lastName}
@@ -94,7 +94,7 @@ const Login = () => {
                   }}
                   type="text"
                   placeholder="Last Name"
-                  className="my-2 py-3 px-3 rounded-md w-72 text-white"
+                  className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
                 />
               </>
             )}
@@ -106,7 +106,7 @@ const Login = () => {
               }}
               type="email"
               placeholder="Email"
-              className="my-2 py-3 px-3 rounded-md w-72 text-white"
+              className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
             />
             <div className="relative flex items-center">
               <input
@@ -116,30 +116,30 @@ const Login = () => {
                 }}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="my-2 py-3 px-3 rounded-md w-72 text-white"
+                className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
               />
 
               <span
-                className="absolute left-64 cursor-pointer"
+                className="absolute left-44 md:left-64 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "👁️" : "🙈"}
               </span>
             </div>
 
-            <p className="text-red-700">{error}</p>
+            <p className="text-red-700 w-72">{error}</p>
 
             {isUserRegister ? (
               <button
                 onClick={handleLoginClick}
-                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-full text-white font-bold mt-5"
+                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-md text-white font-bold mt-5"
               >
                 Log In
               </button>
             ) : (
               <button
                 onClick={handleSignupClick}
-                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-full text-white font-bold mt-5"
+                className="bg-blue-800 hover:opacity-80 py-2 px-4 rounded-md text-white font-bold mt-5"
               >
                 Sign Up
               </button>
@@ -153,7 +153,7 @@ const Login = () => {
                     className="cursor-pointer hover:underline text-white text-base"
                     onClick={() => setIsUserRegister(!isUserRegister)}
                   >
-                    Sign Up
+                    Sign up now
                   </span>
                 </p>
               ) : (

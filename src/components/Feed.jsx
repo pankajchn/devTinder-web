@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice.js";
 import UserCard from "./UserCard.jsx";
+import SkeletonCard from "./SkeletonCard.jsx";
 
 const Feed = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,6 @@ const Feed = () => {
       const res = await axios.get(BASE_URL + "/user/feed", {
         withCredentials: true,
       });
-      console.log(res);
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
       console.log(err);
@@ -27,17 +27,22 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  if (!feed) return;
-  if (feed.length === 0) {
-    return <h1 className="text-center my-24 text-lg">No new users found</h1>;
-  }
-
   return (
-    feed && (
-      <div className="flex justify-center  my-[90px]">
-        <UserCard data={feed[0]} />
-      </div>
-    )
+    <div>
+      {!feed ? (
+        <div className="h-screen flex justify-center items-center">
+          <SkeletonCard />
+        </div>
+      ) : feed.length === 0 ? (
+        <h1 className="text-center text-white my-24 text-lg">
+          No new users found
+        </h1>
+      ) : (
+        <div className="flex justify-center items-center  my-[90px]">
+          <UserCard data={feed[0]} />
+        </div>
+      )}
+    </div>
   );
 };
 

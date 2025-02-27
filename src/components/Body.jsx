@@ -1,25 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet, useNavigate } from "react-router";
-import Navbar from "./Navbar";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { BASE_URL } from "../utils/constants";
-import { useEffect } from "react";
 import { addUser } from "../utils/userSlice";
+import { useEffect } from "react";
+import Navbar from "./Navbar";
+import { BASE_URL } from "../utils/constants";
 
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user);
 
-  const fetchUser = async function () {
+  const fetchUser = async () => {
     if (userData) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data.data));
+      dispatch(addUser(res?.data?.data));
     } catch (error) {
-      if (error.status === 401) {
+      if (error) {
         navigate("/login");
       }
       console.log(error);
@@ -28,14 +29,14 @@ const Body = () => {
 
   useEffect(() => {
     fetchUser();
-  });
+  }, []);
 
   return (
-    <div>
+    <div className="">
       {userData && <Navbar />}
       <Outlet />
+    
     </div>
   );
 };
-
 export default Body;

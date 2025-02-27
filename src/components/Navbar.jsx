@@ -4,34 +4,49 @@ import { BASE_URL } from "../utils/constants";
 import { useNavigate } from "react-router";
 import { removeUser } from "../utils/userSlice";
 import { Link } from "react-router";
+import { removeConnections } from "../utils/connectionSlice";
+import { removeAllRequests } from "../utils/requestSlice";
+import { clearFeed } from "../utils/feedSlice";
 
 const Navbar = () => {
-  const user = useSelector((store) => store.user);
+  const data = useSelector((store) => store.user);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleMultipleDispatch = () => {
+    dispatch(removeAllRequests());
+    dispatch(clearFeed());
+    dispatch(removeConnections());
+    dispatch(removeUser());
+  };
 
   const handleLogout = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
-      dispatch(removeUser());
+      handleMultipleDispatch();
       navigate("/login");
     } catch (err) {
       console.log(err);
     }
   };
-
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
   return (
     <header>
       <div className="navbar bg-base-300 fixed top-0 z-[1]">
         <div className="flex-1">
-          <Link to="/feed" className="btn btn-ghost text-lg">
+          <Link to="/feed" className="btn btn-ghost text-lg md:text-2xl">
             👨‍💻 DevTinder
           </Link>
         </div>
 
-        {user && (
-          <div className="flex-none gap-2 me-8">
-            <p>Welcome, {user.firstName}</p>
+        {data && (
+          <div className="flex-none gap-2">
+            <p className="hidden md:block">
+              Welcome, {capitalizeFirstLetter(data.firstName)}
+            </p>
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -39,7 +54,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="User photo" src={user.photoUrl} />
+                  <img alt="User photo" src={data.photoUrl} />
                 </div>
               </div>
               <ul
