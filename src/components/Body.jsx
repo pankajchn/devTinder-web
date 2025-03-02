@@ -18,6 +18,7 @@ const Body = () => {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
+      console.log(res)
       dispatch(addUser(res?.data?.data));
     } catch (error) {
       if (error) {
@@ -35,7 +36,6 @@ const Body = () => {
     <div className="">
       {userData && <Navbar />}
       <Outlet />
-    
     </div>
   );
 };

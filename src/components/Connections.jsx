@@ -25,11 +25,17 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div className="relative top-20">
       {!connections ? (
-        <div className="flex
-        flex-col items-center justify-center mt-4">
+        <div
+          className="flex
+        flex-col items-center justify-center mt-4"
+        >
           {[...Array(5)].map((_, index) => (
             <Skeleton key={index} />
           ))}
@@ -58,7 +64,9 @@ const Connections = () => {
                 </div>
                 <div className="ms-6">
                   <h1 className="text-base md:text-xl text-white font-normal md:font-semibold">
-                    {firstName + " " + lastName}
+                    {capitalizeFirstLetter(firstName) +
+                      " " +
+                      capitalizeFirstLetter(lastName)}
                   </h1>
                   <p className=" text-[10px] text-white  md:text-base">
                     {age + ", " + gender}

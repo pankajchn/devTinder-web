@@ -23,13 +23,8 @@ const EditProfile = () => {
   const [textError, setTextError] = useState("");
 
   const handleSaveProfile = async function () {
-    setError("");
+    setError(false);
     setTextError("");
-
-    if (age < 18) {
-      setError(true);
-    }
-
     if (!firstName || !lastName || !age || !gender || !photoUrl || !about) {
       setError(false);
       setTextError(false);
@@ -38,6 +33,11 @@ const EditProfile = () => {
       setTimeout(() => {
         setErrorToast(false);
       }, 2000);
+      return;
+    }
+
+    if (age < 18) {
+      setError(true);
     }
 
     try {
@@ -63,14 +63,12 @@ const EditProfile = () => {
   };
 
   return (
-    <div className="flex items-center justify-center px-8 md:px-0 py-4 md:py-0">
-      
+    <div className="flex items-center justify-evenly px-8 py-4 md:px-0  md:py-0">
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="flex w-80 md:w-[40%] lg:w-[22%] flex-col items-center justify-center bg-base-300 py-2 mt-5 rounded-lg shadow-lg"
+        className="flex w-80 md:w-[40%] lg:w-[32%] flex-col items-center justify-center bg-base-300 py-2 mt-5 rounded-lg shadow-lg"
       >
-       
-       <h2 className="text-xl font-medium text-white mb-2">Edit Profile</h2>
+        <h2 className="text-xl font-medium text-white mb-2">Edit Profile</h2>
         <div className="my-1 w-[80%]">
           <label className="block">
             First Name<span className="text-gray-600">*</span>
@@ -153,13 +151,13 @@ const EditProfile = () => {
 
         <button
           type="submit"
-          className="my-2 bg-blue-700 hover:opacity-45 px-12 py-2 text-white font-semibold rounded-xl"
+          className="my-2 bg-blue-700 hover:opacity-45 px-12 py-2 text-white font-semibold rounded-md"
           onClick={handleSaveProfile}
         >
           Save
         </button>
       </form>
-      <div className="ms-16 mb-28 hidden md:block ">
+      <div className=" hidden md:block ">
         <UserCard
           data={{ firstName, lastName, age, gender, photoUrl, about }}
         />

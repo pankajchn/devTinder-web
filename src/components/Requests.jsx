@@ -38,6 +38,10 @@ const Requests = () => {
     fetchPendingRequests();
   }, []);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div>
       {!pendingRequests ? (
@@ -60,7 +64,6 @@ const Requests = () => {
           </h1>
 
           {pendingRequests.map(function (request) {
-            console.log(request);
             const { _id } = request;
             const { firstName, lastName, about, photoUrl } = request.fromUserId;
             return (
@@ -78,7 +81,7 @@ const Requests = () => {
                   </div>
                   <div className="ms-2">
                     <h3 className="text-base md:text-xl text-white md:font-semibold">
-                      {firstName + " " + lastName}
+                      {capitalizeFirstLetter(firstName) + " " + capitalizeFirstLetter(lastName)}
                     </h3>
                     <p className="text-[10px] w-40 md:w-[25rem] md:text-base text-gray-500">
                       {about}

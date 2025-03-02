@@ -62,7 +62,7 @@ const Login = () => {
       <div className="hidden md:block absolute inset-0 bg-black bg-opacity-40 w-full"></div>
 
       <div className="absolute top-4 left-4 lg:top-8 lg:left-20">
-        <h2 className="text-xl md:3xl lg:text-4xl text-white font-bold">
+        <h2 className="text-xl md:4xl lg:text-4xl text-white font-bold">
           🧑‍💻 DevTinder
         </h2>
       </div>
@@ -108,7 +108,7 @@ const Login = () => {
               placeholder="Email"
               className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
             />
-            <div className="relative flex items-center">
+            <div className="relative flex items-center md:w-72">
               <input
                 value={password}
                 onChange={function (e) {
@@ -116,7 +116,7 @@ const Login = () => {
                 }}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="my-2 py-3 px-3 rounded-md md:w-72 text-white"
+                className="my-2 py-3 px-3 rounded-md text-white w-full"
               />
 
               <span
@@ -127,7 +127,7 @@ const Login = () => {
               </span>
             </div>
 
-            <p className="text-red-700 w-72">{error}</p>
+            <p className="text-red-700 text-sm md:text-base w-48 md:w-72">{error}</p>
 
             {isUserRegister ? (
               <button
