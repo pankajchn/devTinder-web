@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 
 const Premium = () => {
   const [isPremiumUser, setIsPremiumUser] = useState(false);
+   useEffect(() => {
+    verifyPremiumUser();
+  }, []);
 
   const verifyPremiumUser = async () => {
     const res = await axios.get(BASE_URL + "/premium/verify", {
@@ -15,9 +18,7 @@ const Premium = () => {
     }
   };
 
-  useEffect(() => {
-    verifyPremiumUser();
-  }, []);
+ 
 
   const handleBuyClick = async (membershipType) => {
     const order = await axios.post(
