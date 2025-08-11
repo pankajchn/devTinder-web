@@ -7,6 +7,7 @@ import Feed from "./components/Feed";
 import Profile from "./components/Profile";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import Premium from "./components/Premium";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/premium" element={<Premium/>} />
             </Route>
           </Routes>
         </BrowserRouter>
